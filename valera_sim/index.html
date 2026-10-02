@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Симулятор ферментации и гниения молока: Мясокомбинат Валеры</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="crt">
+    <div id="game-container">
+        <header>
+            <h1>МЯСОКОМБИНАТ ВАЛЕРЫ</h1>
+            <p class="subtitle">Ультра-реалистичный симулятор ферментации, гниения и разложения молока</p>
+            <nav id="tabs">
+                <button class="tab-btn active" data-tab="tab-vat">Молочный чан</button>
+                <button class="tab-btn" data-tab="tab-knife">Тир с Валерой</button>
+                <button class="tab-btn" data-tab="tab-rats">Крысиный загон</button>
+                <button class="tab-btn" data-tab="tab-taste">Дегустационная пыточная</button>
+                <button class="tab-btn" data-tab="tab-run">Валера Ран</button>
+            </nav>
+        </header>
+
+        <main id="content">
+            <!-- 1. Молочный чан -->
+            <section id="tab-vat" class="tab-content active">
+                <h2>Индустриальный чан разложения</h2>
+                <div class="vat-controls">
+                    <label>Температура: <span id="temp-val">20</span>°C
+                        <input type="range" id="temp-slider" min="-10" max="100" value="20">
+                    </label>
+                    <label>Влажность: <span id="humidity-val">50</span>%
+                        <input type="range" id="humidity-slider" min="0" max="100" value="50">
+                    </label>
+                    <label>Ускорение времени: <span id="time-val">1</span>x
+                        <input type="range" id="time-slider" min="1" max="100" value="1">
+                    </label>
+                </div>
+                <div class="vat-status">
+                    <p>Статус: <span id="vat-status-text">Свежее, пока что...</span></p>
+                    <p>Бактериологическая угроза: <span id="vat-biohazard">Низкая</span></p>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="vat-canvas" width="600" height="400"></canvas>
+                </div>
+            </section>
+
+            <!-- 2. Тир с Валерой -->
+            <section id="tab-knife" class="tab-content">
+                <h2>Тир с Валерой (Метание ножей)</h2>
+                <div class="knife-controls">
+                    <label>Выбор оружия:
+                        <select id="weapon-select">
+                            <option value="rusty_shiv">Ржавый заточник</option>
+                            <option value="scalpel">Скальпель патологоанатома</option>
+                            <option value="cleaver">Мясницкий тесак Валеры</option>
+                            <option value="toxic_machete">Токсичное мачете</option>
+                        </select>
+                    </label>
+                    <button id="throw-btn" class="action-btn">Метнуть в Валеру!</button>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="knife-canvas" width="600" height="400"></canvas>
+                </div>
+                <div id="knife-log" class="terminal-log"></div>
+            </section>
+
+            <!-- 3. Крысиный загон -->
+            <section id="tab-rats" class="tab-content">
+                <h2>Крысиный загон (Канализационный отсек)</h2>
+                <div class="rat-controls">
+                    <button id="pour-milk-btn" class="action-btn">Слить жижу крысам</button>
+                    <button id="throw-knife-rats-btn" class="action-btn">Метнуть нож в крысу (Добыча крови)</button>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="rats-canvas" width="600" height="400"></canvas>
+                </div>
+                <div id="rats-log" class="terminal-log"></div>
+            </section>
+
+            <!-- 4. Дегустационная пыточная -->
+            <section id="tab-taste" class="tab-content">
+                <h2>Дегустационная комната (Интерактивная скорая)</h2>
+                <div class="taste-controls">
+                    <button id="taste-btn" class="action-btn danger">Выпить / Попробовать</button>
+                    <button id="wash-btn" class="action-btn danger">Умыться молоком</button>
+                </div>
+                <div id="medical-status" class="medical-report">
+                    <h3>Состояние дегустатора:</h3>
+                    <p id="taster-health">Норма</p>
+                    <div id="taster-face-container">
+                        <!-- Лицо дегустатора будет меняться здесь -->
+                        <div id="taster-face"></div>
+                    </div>
+                </div>
+                <div id="interactive-crisis" class="hidden">
+                    <h3>КРИТИЧЕСКОЕ ОТРАВЛЕНИЕ!</h3>
+                    <div class="crisis-choices">
+                        <button id="choice-toilet" class="crisis-btn">Бежать в туалет</button>
+                        <button id="choice-vomit" class="crisis-btn">Выпить марганцовку / два пальца в рот</button>
+                        <button id="choice-ambulance" class="crisis-btn">Вызвать скорую 112</button>
+                        <button id="choice-endure" class="crisis-btn">Терпеть стиснув зубы</button>
+                    </div>
+                </div>
+                <div id="autopsy-report" class="terminal-log hidden"></div>
+            </section>
+
+            <!-- 5. Валера Ран -->
+            <section id="tab-run" class="tab-content">
+                <h2>Валера Ран (Побег с бидоном гнили)</h2>
+                <p>Пробел - прыжок, Стрелка вниз - пригнуться.</p>
+                <div class="run-controls">
+                    <button id="start-run-btn" class="action-btn">Начать забег</button>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="run-canvas" width="800" height="300"></canvas>
+                </div>
+                <div class="run-stats">
+                    Очки: <span id="run-score">0</span> | Гниль: <span id="run-rot">0</span>%
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
